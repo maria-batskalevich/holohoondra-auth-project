@@ -1,0 +1,10 @@
+@import '../../../../sass/abstracts/definitions';
+@import "../../../../sass/components/auth";
+
+.fieldWrapper {
+  @extend %inputFieldPlaceholder;
+
+  .error {
+    @extend %authErrors;
+  }
+}

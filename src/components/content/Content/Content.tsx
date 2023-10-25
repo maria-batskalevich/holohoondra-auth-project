@@ -1,27 +1,30 @@
 import React from 'react'
-import {Routes, Route} from "react-router-dom";
+import {Routes, Route, Navigate} from "react-router-dom";
 import {Login} from "../Login/Login";
-import {SignUp} from "../SignUp/SignUp";
 import {Home} from "../Home/Home";
+import {useSelector} from "react-redux";
+import {getIsAuth} from "../../../bll/auth.selector";
+import {Profile} from "../Profile/Profile";
+import {SignUp} from "../SignUp/SignUp";
 
 export enum PATH {
     ROOT = '/',
     HOME = '/home',
     LOGIN = '/login',
     SIGNUP = '/sign-up',
+    PROFILE = '/profile',
 }
 
 export const Content = () => {
-    // const isAuth = useSelector(getIsAuth)
+    const isAuth = useSelector(getIsAuth)
 
     return (
-        <div>
-            <Routes>
-                <Route path={PATH.ROOT} element={<Home/>}/>
-                <Route path={PATH.LOGIN} element={<Login/>}/>
-                {/*<Route path={PATH.LOGIN} element={isAuth ? <Login/> : <Navigate to={PATH.SIGNUP}/>}/>*/}
-                <Route path={PATH.SIGNUP} element={<SignUp/>}/>
-            </Routes>
-        </div>
+        <Routes>
+            <Route path={PATH.ROOT} element={<Home/>}/>
+            <Route path={PATH.LOGIN} element={!isAuth ? <Login/> : <Navigate to={PATH.PROFILE}/>}/>
+            <Route path={PATH.SIGNUP} element={<SignUp/>}/>
+            <Route path={PATH.PROFILE} element={<Profile/>}/>
+        </Routes>
+
     )
 }
