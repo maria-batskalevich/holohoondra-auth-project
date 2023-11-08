@@ -6,6 +6,7 @@ import {useSelector} from "react-redux";
 import {getIsAuth} from "../../../bll/auth.selector";
 import {Profile} from "../Profile/Profile";
 import {SignUp} from "../SignUp/SignUp";
+import {RegistrationInfo} from "../NotFound404/RegistrationInfo";
 
 export enum PATH {
     ROOT = '/',
@@ -13,6 +14,7 @@ export enum PATH {
     LOGIN = '/login',
     SIGNUP = '/sign-up',
     PROFILE = '/profile',
+    REGISTER_INFO = '/info',
 }
 
 export const Content = () => {
@@ -24,6 +26,7 @@ export const Content = () => {
             <Route path={PATH.LOGIN} element={!isAuth ? <Login/> : <Navigate to={PATH.PROFILE}/>}/>
             <Route path={PATH.SIGNUP} element={<SignUp/>}/>
             <Route path={PATH.PROFILE} element={<Profile/>}/>
+            <Route path={PATH.REGISTER_INFO} element={<RegistrationInfo/>}/>
         </Routes>
 
     )

@@ -1,58 +1,67 @@
 import React, {useState} from 'react';
 import s from './SignUp.module.scss'
-import {Link} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
-import {getIsAuth} from "../../../bll/auth.selector";
+import {Link, useNavigate} from "react-router-dom";
+import {useDispatch} from "react-redux";
 import {useFormik} from "formik";
 import 'react-toastify/dist/ReactToastify.css';
-import {RegistrationsData} from "../../../dal/auth-api";
 import {signUpTC} from "../../../bll/auth.reducer";
 import {CustomInputField} from "../CustomFields/CustomInputField/CustomInputFiels";
 import {PATH} from "../Content/Content";
+import {usernameValidator} from "../../../utills/validators/username.validator";
+import {passwordValidator} from "../../../utills/validators/password.validator";
+import {emailValidator} from "../../../utills/validators/email.validator";
+import {SignUpRequestDataType} from "../../../models/requests/auth.request";
+
+type SignUpValuesType = SignUpRequestDataType & { confirmPassword: string }
 
 export const SignUp = () => {
     const dispatch = useDispatch()
-    const isAuth = useSelector(getIsAuth)
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const navigate = useNavigate()
+
+    const initialValues: SignUpValuesType = {
+        username: '',
+        password: '',
+        confirmPassword: '',
+        email: '',
+    }
+
+    const validate = (values: SignUpValuesType) => {
+        const errors: Partial<SignUpValuesType> = {}
+
+        const usernameError = usernameValidator(values.username)
+        if (usernameError) errors.username = usernameError
+
+        const passwordError = passwordValidator(values.password)
+        if(passwordError) errors.password = passwordError
+
+        const emailError = emailValidator(values.email)
+        if (emailError) errors.email = emailError
+
+        if (values.password !== values.confirmPassword) {
+            errors.confirmPassword = 'Those passwords didn’t match. Try again.'
+        }
+
+        return errors
+    }
+
+    const onSubmit = (values: SignUpValuesType) => {
+        // @ts-ignore
+        dispatch(signUpTC(values));
+        navigate('/info')
+    }
 
     const formik = useFormik({
-        initialValues: {
-            username: '',
-            password: '',
-            email: '',
-        },
-
-        validate: (values) => {
-            const errors: Partial<RegistrationsData> = {};
-            if (!values.email) {
-                errors.email = 'Required';
-            } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-                errors.email = 'Invalid email address';
-            }
-
-            if (!values.password) {
-                errors.password = 'Required'
-            } else if (values.password.length < 3) {
-                errors.password = 'Password length should be more than 3'
-            }
-            if (!values.username) {
-                errors.username = 'Required';
-            }
-            return errors;
-        },
-        onSubmit: values => {
-            setIsLoading(true);
-            // @ts-ignore
-            dispatch(signUpTC(values));
-            setIsLoading(false);
-        }
+        initialValues,
+        validate,
+        onSubmit
     })
 
     return (
-        <div className={s.loginWrapper}>
+        <div className={s.mainWrapper}>
             <form onSubmit={formik.handleSubmit}>
-                <div className={s.loginHeader}>
-                    <h3>Sign in</h3>
+                <div className={s.mainHeader}>
+                    <h3>Sign up</h3>
                     <CustomInputField
                         label={'Username'}
                         touched={formik.touched.username}
@@ -60,10 +69,18 @@ export const SignUp = () => {
                         {...formik.getFieldProps('username')}
                     />
                     <CustomInputField
+                        type='password'
                         label={'Password'}
                         touched={formik.touched.password}
                         error={formik.errors.password}
                         {...formik.getFieldProps('password')}
+                    />
+                    <CustomInputField
+                        type='password'
+                        label={'Confirm password'}
+                        touched={formik.touched.confirmPassword}
+                        error={formik.errors.confirmPassword}
+                        {...formik.getFieldProps('confirmPassword')}
                     />
                     <CustomInputField
                         label={'Email'}
@@ -72,16 +89,16 @@ export const SignUp = () => {
                         {...formik.getFieldProps('email')}
                     />
                 </div>
-                <div className={s.loginFooter}>
+                <div className={s.mainFooter}>
                     <button
                         type={'submit'}
-                        className={s.completeSignupButton}
+                        className={s.completeButton}
                         disabled={isLoading}
-                    >Login
+                    >SignUp
                     </button>
-                    <div className={s.loginFooterRedirect}>
+                    <div className={s.mainFooterRedirect}>
                         <p>Don't have an account?
-                            <Link to={PATH.LOGIN}>Login</Link>
+                            <Link to={PATH.LOGIN}> Login</Link>
                         </p>
                     </div>
                 </div>

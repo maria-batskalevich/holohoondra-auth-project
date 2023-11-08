@@ -1,0 +1,28 @@
+@import "../../../sass/abstracts/definitions";
+@import "../../../sass/components/auth";
+
+.wrapper {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 10vh;
+	color: $profileBoxMainColor;
+	.subtitle {
+		font-size: 40px;
+		font-weight: bold;
+		line-height: 1em;
+		margin-bottom: 5vh;
+
+	}
+	.title {
+		font-size: 2vh;
+		text-align: center;
+		padding-bottom: 20px;
+	}
+	.completeButton {
+		@extend %buttonFieldPlaceholder;
+}
+}
+
+
+

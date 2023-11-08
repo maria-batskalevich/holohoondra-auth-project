@@ -1,9 +1,10 @@
 import {Dispatch} from 'redux'
-import {setAppError} from "../bll/auth.reducer";
-import {toast} from "react-toastify";
-import {UsersInfoResponse} from "../dal/auth-api";
 
-export const handleServerAppError = <D>(data: UsersInfoResponse, dispatch: Dispatch<ReturnType<typeof setAppError>>) => {
+import {toast} from "react-toastify";
+import {UserInfoResponse} from "../dal/auth-api";
+import {setAppError} from "../bll/app.reducer";
+
+export const handleServerAppError = <D>(data: UserInfoResponse, dispatch: Dispatch<ReturnType<typeof setAppError>>) => {
 	if (data.message.length) {
 		dispatch(setAppError(data.message[0]))
 		toast.error(data.message[0])

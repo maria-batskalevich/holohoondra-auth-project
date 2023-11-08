@@ -1,4 +1,5 @@
-import axios, {AxiosResponse} from "axios";
+import axios from "axios";
+import {SignUpRequestDataType} from "../models/requests/auth.request";
 
 const authConfig = {
     baseURL: 'http://185.250.46.14/api/',
@@ -8,41 +9,41 @@ const authConfig = {
 const instance = axios.create(authConfig)
 
 export const authAPI = {
-    registration(data: RegistrationsData){
-        return instance.post<RegistrationsData, AxiosResponse>('auth/registration', data)
-            // .then(res => res.data)
+    registration(data: SignUpRequestDataType) {
+        return instance.post<SignUpRequestDataType, UserInfoResponse>('auth/registration', data)
+            .then(res => res.data)
     }
 }
 
 
-export type RegistrationsData = {
-    username: string,
-    password: string,
-    email: string
-}
 
-export type UsersInfoResponse = {
+
+export type UserInfoResponse = {
     message: string,
-    data: {
-        tokens: {
-            accessToken: string,
-            refreshToken: string,
-        },
-        user: {
-            id: number,
-            username: string,
-            isActivated: boolean,
-            subscribersCount: number,
-            gamesJuniorCount: number,
-            gamesMiddleCount: number,
-            gamesSeniorCount: number,
-            gamesJuniorWinsCount: number,
-            gamesMiddleWinsCount: number,
-            gamesSeniorWinsCount: number,
-            sparringCount: number,
-            sparringWinsCount: number,
-            rating: string,
-        }
-    }
+    data: fullUserType,
 };
 
+export type UserType = {
+    id: number,
+    username: string,
+    isActivated: boolean,
+    subscribersCount: number,
+    gamesJuniorCount: number,
+    gamesMiddleCount: number,
+    gamesSeniorCount: number,
+    gamesJuniorWinsCount: number,
+    gamesMiddleWinsCount: number,
+    gamesSeniorWinsCount: number,
+    sparringCount: number,
+    sparringWinsCount: number,
+    rating: string,
+}
+export type TokensType = {
+    accessToken: string,
+    refreshToken: string,
+}
+
+export type fullUserType = {
+    tokens: TokensType,
+    user: UserType,
+}

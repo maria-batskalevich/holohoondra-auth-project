@@ -1,0 +1,34 @@
+@import "../../../sass/abstracts/definitions";
+
+.sideBarWrapper {
+	width: 138px;
+	height: 581px;
+	position: relative;
+	background-color: $mainDarkBGColor;
+	color: #FFFFFF;
+	font-size: 49px;
+	font-family: 'PT Sans', sans-serif;
+
+	span {
+		position: absolute;
+		rotate: 270deg;
+		transform-origin: left;
+		width: max-content;
+		bottom: 10%;
+		left: 60%;
+	}
+}
+
+@media (max-width: 660px) {
+	.sideBarWrapper {
+		font-size: 46px;
+		width: 30%;
+		height: auto;
+	}
+}
+@media (max-width: 420px) {
+	.sideBarWrapper {
+		font-size: 35px;
+		width: 150px;
+	}
+}

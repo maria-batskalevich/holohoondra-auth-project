@@ -8,7 +8,6 @@ const AppInitialState = {
     isLoading: false,
     isInitialized: false,
     error: ''
-
 }
 export type AppInitialStateType = {
     isLoading: boolean,
@@ -16,12 +15,12 @@ export type AppInitialStateType = {
     error: string
 }
 
-export type AppActionStateType =
-    ReturnType<typeof setIsLoading> |
+export type AppActionsType =
+    ReturnType<typeof setAppIsLoading> |
     ReturnType<typeof setIsInitialized> |
-    ReturnType<typeof setError>;
+    ReturnType<typeof setAppError>;
 
-export const appReducer = (state: AppInitialStateType = AppInitialState, action: AppActionStateType): AppInitialStateType => {
+export const appReducer = (state: AppInitialStateType = AppInitialState, action: AppActionsType): AppInitialStateType => {
     switch (action.type) {
         case AppActions.SET_IS_LOADING:
         case AppActions.SET_IS_INITIALIZED:
@@ -32,7 +31,7 @@ export const appReducer = (state: AppInitialStateType = AppInitialState, action:
     }
 }
 
-export const setIsLoading = (isLoading: boolean) => ({
+export const setAppIsLoading = (isLoading: boolean) => ({
     type: AppActions.SET_IS_LOADING, payload: {isLoading}
 } as const)
 
@@ -40,6 +39,6 @@ export const setIsInitialized = (isInitialized: boolean) => ({
     type: AppActions.SET_IS_INITIALIZED, payload: {isInitialized}
 } as const)
 
-export const setError = (error: string) => ({
+export const setAppError = (error: string) => ({
     type: AppActions.SET_ERROR, payload: {error}
 } as const)

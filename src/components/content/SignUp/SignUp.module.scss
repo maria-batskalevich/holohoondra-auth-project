@@ -2,11 +2,11 @@
 @import "../../../sass/components/auth";
 
 
-.loginWrapper {
+.mainWrapper {
   @extend %authWrapper;
   width: 485px;
 
-  .loginHeader {
+  .mainHeader {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -25,13 +25,14 @@
       padding-bottom: 50px;
     }
   }
-  .loginFooter {
+  .mainFooter {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     align-items: center;
+    padding-top: 50px;
 
-    .completeSignupButton {
+    .completeButton {
       @extend %buttonFieldPlaceholder;
 
       button:disabled {
@@ -39,7 +40,7 @@
       }
     }
 
-    .loginFooterRedirect {
+    .mainFooterRedirect {
       font-size: 13px;
       font-weight: 200;
       margin-top: 20px;
